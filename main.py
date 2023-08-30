@@ -26,7 +26,6 @@ async def create_task(task: task_schema, db: Session = Depends(create_get_sessio
    )
    db.add(new_task)
    db.commit()
-
    return new_task
 
 # @app.get("/task/{id}", response_model = task_schema, status_code=200)
