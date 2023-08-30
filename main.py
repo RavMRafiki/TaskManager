@@ -1,11 +1,10 @@
 from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy.orm import Session
-from typing import List
-from model import Task
-from schema import task_schema
-from session import create_get_session
+# from sqlalchemy.orm import Session
+# from typing import List
+# from model import Task
+# from schema import task_schema
+# from session import create_get_session
 
-from fastapi import FastAPI
 app = FastAPI()
 
 @app.get("/")
