@@ -28,26 +28,37 @@ async def create_task(task: task_schema, db: Session = Depends(create_get_sessio
    db.commit()
    return new_task
 
-# @app.get("/task/{id}", response_model = task_schema, status_code=200)
-# async def get_task(id:int,db: Session = Depends(create_get_session)):
-#    task = db.query(Task).get(id)
-#    return task
+@app.get("/task/{id}", response_model = task_schema, status_code=200)
+async def get_task(id:int,db: Session = Depends(create_get_session)):
+   task = db.query(Task).get(id)
+   return task
 
-# @app.patch("/task/{id}", response_model = task_schema, status_code=200)
-# async def update_task(id:int, task:task_schema, db: Session = Depends(create_get_session)):
-#    db_task = db.query(Task).get(id)
-#    db_task.task_name = task.task_name
-#    db_task.task_des =  task.task_des
-#    db.commit()
-#    db.refresh(db_task)
+@app.patch("/task/{id}", response_model = task_schema, status_code=200)
+async def update_task(id:int, task:task_schema, db: Session = Depends(create_get_session)):
+   db_task = db.query(Task).get(id)
+   db_task.task_name = task.task_name
+   db_task.task_des =  task.task_des
+   db.commit()
+   db.refresh(db_task)
 
-#    return db_task
+   return db_task
 
-# @app.delete('/task/{id}', status_code=200)
-# async def delete_task(id: int, db: Session = Depends(create_get_session)):
-#     db_task = db.query(Task).get(id)
-#     if not db_task:
-#         raise HTTPException(status_code=404, detail="Task id does not exist")
-#     db.delete(db_task)
-#     db.commit()
-#     return None
+@app.put("/task/{id}", response_model = task_schema, status_code=200)
+async def update_task(id:int, task:task_schema, db: Session = Depends(create_get_session)):
+   db_task = db.query(Task).get(id)
+   db_task.task_name = task.task_name
+   db_task.task_des =  task.task_des
+   db_task.created_by = task.created_by
+   db_task.date_created = task.date_created  
+   db.commit()
+   db.refresh(db_task)
+
+   return db_task
+@app.delete('/task/{id}', status_code=200)
+async def delete_task(id: int, db: Session = Depends(create_get_session)):
+    db_task = db.query(Task).get(id)
+    if not db_task:
+        raise HTTPException(status_code=404, detail="Task id does not exist")
+    db.delete(db_task)
+    db.commit()
+    return None
