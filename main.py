@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
@@ -22,7 +23,7 @@ async def create_task(task: task_schema, db: Session = Depends(create_get_sessio
         task_name = task.task_name,
         task_des = task.task_des,
         created_by =task.created_by,
-        date_created = task.date_created,
+        date_created = datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
    )
    db.add(new_task)
    db.commit()
@@ -54,6 +55,7 @@ async def update_task(id:int, task:task_schema, db: Session = Depends(create_get
    db.refresh(db_task)
 
    return db_task
+
 @app.delete('/task/{id}', status_code=200)
 async def delete_task(id: int, db: Session = Depends(create_get_session)):
     db_task = db.query(Task).get(id)
